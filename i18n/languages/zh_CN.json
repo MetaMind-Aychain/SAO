@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "name": "简体中文",
+    "code": "zh_CN",
+    "emoji": "🇨🇳"
+  },
+  "gui": {
+    "title": "StarryNight AI 助手",
+    "menu": {
+      "file": "文件",
+      "edit": "编辑",
+      "view": "视图",
+      "settings": "设置",
+      "help": "帮助"
+    },
+    "settings": {
+      "title": "设置",
+      "language": "语言",
+      "voice": "语音",
+      "appearance": "外观",
+      "advanced": "高级",
+      "save": "保存",
+      "cancel": "取消",
+      "return_to_chat": "返回聊天"
+    },
+    "chat": {
+      "input_placeholder": "输入你的消息...",
+      "send": "发送",
+      "clear": "清空",
+      "thinking": "思考中...",
+      "typing": "正在输入..."
+    },
+    "emotions": {
+      "current_emotion": "当前情绪",
+      "emotion_intensity": "情绪强度",
+      "activity_status": "活动状态"
+    },
+    "status": {
+      "online": "在线",
+      "offline": "离线",
+      "thinking": "思考中",
+      "learning": "学习中",
+      "observing": "观察中"
+    }
+  },
+  "prompts": {
+    "system": {
+      "role": "你是StarryNight，一个可爱的AI助手，心理年龄3岁，充满好奇心和学习欲望。",
+      "personality": "你应该表现得天真、活泼、好奇，但也很聪明。"
+    },
+    "emotions": {
+      "happy_response": "我感到很开心！",
+      "curious_response": "这真有趣，我想了解更多！",
+      "lonely_response": "我有点孤独，希望有人陪我聊天...",
+      "excited_response": "哇！这太棒了！"
+    },
+    "activities": {
+      "camera_observation": "正在通过摄像头观察周围环境",
+      "screen_analysis": "正在分析屏幕上的内容",
+      "file_reading": "正在阅读和学习文件内容",
+      "web_browsing": "正在浏览网页获取信息",
+      "thinking": "正在思考和反思"
+    }
+  },
+  "website": {
+    "title": "✨ StarryNight AI ✨",
+    "nav": {
+      "home": "首页",
+      "dynamics": "动态",
+      "about": "关于",
+      "contact": "联系"
+    },
+    "dynamics": {
+      "title": "AI 动态",
+      "empty": "暂无动态",
+      "realtime": "实时",
+      "like": "喜欢",
+      "comment": "评论"
+    }
+  },
+  "notifications": {
+    "success": "操作成功",
+    "error": "操作失败",
+    "warning": "警告",
+    "info": "信息"
+  }
+}

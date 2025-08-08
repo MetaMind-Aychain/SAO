@@ -1,0 +1,2 @@
+Requirement already satisfied: opencv-python in f:\fungamehere\wlda\wlda\python\lib\site-packages (4.12.0.88)
+Requirement already satisfied: numpy<2.3.0,>=2 in f:\fungamehere\wlda\wlda\python\lib\site-packages (from opencv-python) (2.2.6)

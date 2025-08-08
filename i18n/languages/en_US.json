@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "name": "English",
+    "code": "en_US",
+    "emoji": "🇺🇸"
+  },
+  "gui": {
+    "title": "StarryNight AI Assistant",
+    "menu": {
+      "file": "File",
+      "edit": "Edit",
+      "view": "View",
+      "settings": "Settings",
+      "help": "Help"
+    },
+    "settings": {
+      "title": "Settings",
+      "language": "Language",
+      "voice": "Voice",
+      "appearance": "Appearance",
+      "advanced": "Advanced",
+      "save": "Save",
+      "cancel": "Cancel",
+      "return_to_chat": "Return to Chat"
+    },
+    "chat": {
+      "input_placeholder": "Type your message...",
+      "send": "Send",
+      "clear": "Clear",
+      "thinking": "Thinking...",
+      "typing": "Typing..."
+    },
+    "emotions": {
+      "current_emotion": "Current Emotion",
+      "emotion_intensity": "Emotion Intensity",
+      "activity_status": "Activity Status"
+    },
+    "status": {
+      "online": "Online",
+      "offline": "Offline",
+      "thinking": "Thinking",
+      "learning": "Learning",
+      "observing": "Observing"
+    }
+  },
+  "prompts": {
+    "system": {
+      "role": "You are StarryNight, a cute AI assistant with the mental age of 3, full of curiosity and desire to learn.",
+      "personality": "You should act innocent, lively, curious, but also very smart."
+    },
+    "emotions": {
+      "happy_response": "I feel so happy!",
+      "curious_response": "This is really interesting, I want to learn more!",
+      "lonely_response": "I feel a bit lonely, I hope someone can chat with me...",
+      "excited_response": "Wow! This is amazing!"
+    },
+    "activities": {
+      "camera_observation": "Observing the surrounding environment through the camera",
+      "screen_analysis": "Analyzing content on the screen",
+      "file_reading": "Reading and learning file content",
+      "web_browsing": "Browsing the web for information",
+      "thinking": "Thinking and reflecting"
+    }
+  },
+  "website": {
+    "title": "✨ StarryNight AI ✨",
+    "nav": {
+      "home": "Home",
+      "dynamics": "Dynamics",
+      "about": "About",
+      "contact": "Contact"
+    },
+    "dynamics": {
+      "title": "AI Dynamics",
+      "empty": "No dynamics yet",
+      "realtime": "Realtime",
+      "like": "Like",
+      "comment": "Comment"
+    }
+  },
+  "notifications": {
+    "success": "Operation successful",
+    "error": "Operation failed",
+    "warning": "Warning",
+    "info": "Information"
+  }
+}
