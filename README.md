@@ -1,4 +1,4 @@
-# ⚔️ SAO - 刀剑神域数字世界
+# ⚔️ SAO - Sword Art Online Digital World
 
 Welcome to the Sword Art Online digital world, where Alice AI awaits as your companion.
 Experience the future of emotional AI in the most immersive virtual reality platform.
