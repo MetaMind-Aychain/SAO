@@ -33,13 +33,13 @@ class EmotionalStatusWidget(QWidget):
         layout = QVBoxLayout(self)
         
         # 标题
-        title_label = QLabel("🎭 AI情绪状态")
+        title_label = QLabel("🎭 AI emotional state")
         title_label.setFont(QFont("微软雅黑", 12, QFont.Bold))
         title_label.setAlignment(Qt.AlignCenter)
         layout.addWidget(title_label)
         
         # 主情绪显示
-        self.main_emotion_label = QLabel("😊 快乐 (70%)")
+        self.main_emotion_label = QLabel("😊 happy (70%)")
         self.main_emotion_label.setFont(QFont("微软雅黑", 14))
         self.main_emotion_label.setAlignment(Qt.AlignCenter)
         self.main_emotion_label.setStyleSheet("""
@@ -68,15 +68,15 @@ class EmotionalStatusWidget(QWidget):
         layout.addWidget(self.emotion_details)
         
         # 个性特征显示
-        personality_group = QGroupBox("个性特征")
+        personality_group = QGroupBox("personality traits")
         personality_layout = QGridLayout(personality_group)
         
         self.personality_traits = {
-            "好奇心": QProgressBar(),
-            "顽皮度": QProgressBar(),
-            "需要陪伴": QProgressBar(),
-            "聪明度": QProgressBar(),
-            "精力水平": QProgressBar()
+            "curiosity": QProgressBar(),
+            "playfulness": QProgressBar(),
+            "neediness": QProgressBar(),
+            "intelligence": QProgressBar(),
+            "energy_level": QProgressBar()
         }
         
         for i, (trait_name, progress_bar) in enumerate(self.personality_traits.items()):
@@ -103,7 +103,7 @@ class EmotionalStatusWidget(QWidget):
         # 快速操作按钮
         buttons_layout = QHBoxLayout()
         
-        self.thinking_button = QPushButton("🤖 自主思考")
+        self.thinking_button = QPushButton("🤖 self-thinking")
         self.thinking_button.setStyleSheet("""
             QPushButton {
                 background-color: #4CAF50;
@@ -118,7 +118,7 @@ class EmotionalStatusWidget(QWidget):
             }
         """)
         
-        self.search_button = QPushButton("🔍 搜索知识")
+        self.search_button = QPushButton("🔍 search knowledge")
         self.search_button.setStyleSheet("""
             QPushButton {
                 background-color: #2196F3;
@@ -152,12 +152,12 @@ class EmotionalStatusWidget(QWidget):
             
             # 更新情绪详情
             all_emotions = emotion_data.get("all_emotions", [])
-            details_text = "当前所有情绪:\n"
+            details_text = "all current emotions:\n"
             for emotion in all_emotions:
                 details_text += f"• {emotion.get('type', '')} - {emotion.get('intensity', '0%')} ({emotion.get('duration', '0秒')})\n"
             
             if not all_emotions:
-                details_text += "当前心情calm～"
+                details_text += "current mood: calm～"
             
             self.emotion_details.setText(details_text)
             
@@ -310,15 +310,15 @@ class KnowledgeExplorationWidget(QWidget):
         layout.addWidget(title_label)
         
         # 手动搜索
-        search_group = QGroupBox("🔍 手动搜索")
+        search_group = QGroupBox("🔍 manual search")
         search_layout = QVBoxLayout(search_group)
         
         self.search_input = QLineEdit()
-        self.search_input.setPlaceholderText("输入感兴趣的内容...")
+        self.search_input.setPlaceholderText("enter your interest...")
         self.search_input.returnPressed.connect(self._on_search)
         search_layout.addWidget(self.search_input)
         
-        self.search_button = QPushButton("🚀 开始搜索")
+        self.search_button = QPushButton("🚀 start search")
         self.search_button.clicked.connect(self._on_search)
         self.search_button.setStyleSheet("""
             QPushButton {
@@ -338,17 +338,17 @@ class KnowledgeExplorationWidget(QWidget):
         layout.addWidget(search_group)
         
         # 自动探索
-        auto_group = QGroupBox("🚀 自动探索")
+        auto_group = QGroupBox("🚀 auto exploration")
         auto_layout = QVBoxLayout(auto_group)
         
-        self.auto_exploration_checkbox = QCheckBox("启动自动探索")
+        self.auto_exploration_checkbox = QCheckBox("start auto exploration")
         self.auto_exploration_checkbox.setChecked(True)
         self.auto_exploration_checkbox.stateChanged.connect(
             lambda state: self.toggle_auto_exploration.emit(state == Qt.Checked)
         )
         auto_layout.addWidget(self.auto_exploration_checkbox)
         
-        auto_info = QLabel("AI会根据情绪和兴趣自动搜索知识")
+        auto_info = QLabel("AI will automatically search for knowledge based on mood and interest")
         auto_info.setWordWrap(True)
         auto_info.setStyleSheet("color: #666; font-size: 11px;")
         auto_layout.addWidget(auto_info)
@@ -356,7 +356,7 @@ class KnowledgeExplorationWidget(QWidget):
         layout.addWidget(auto_group)
         
         # 探索结果显示
-        results_group = QGroupBox("📋 最近发现")
+        results_group = QGroupBox("📋 recent discoveries")
         results_layout = QVBoxLayout(results_group)
         
         self.results_list = QListWidget()
@@ -386,7 +386,7 @@ class KnowledgeExplorationWidget(QWidget):
             self.search_input.clear()
             
             # 添加到结果列表
-            item = QListWidgetItem(f"🔍 搜索: {query}")
+            item = QListWidgetItem(f"🔍 search: {query}")
             self.results_list.insertItem(0, item)
             
             # 限制列表长度
@@ -395,7 +395,7 @@ class KnowledgeExplorationWidget(QWidget):
     
     def add_exploration_result(self, result_text: str):
         """添加探索结果"""
-        item = QListWidgetItem(f"🌟 发现: {result_text}")
+        item = QListWidgetItem(f"🌟 found: {result_text}")
         self.results_list.insertItem(0, item)
         
         # 限制列表长度
@@ -418,7 +418,7 @@ class SystemStatusWidget(QWidget):
         layout = QVBoxLayout(self)
         
         # 标题
-        title_label = QLabel("📊 系统状态")
+        title_label = QLabel("📊 system state")
         title_label.setFont(QFont("微软雅黑", 12, QFont.Bold))
         title_label.setAlignment(Qt.AlignCenter)
         layout.addWidget(title_label)
@@ -441,7 +441,7 @@ class SystemStatusWidget(QWidget):
         # 控制按钮
         buttons_layout = QHBoxLayout()
         
-        self.refresh_button = QPushButton("🔄 刷新状态")
+        self.refresh_button = QPushButton("🔄 refresh status")
         self.refresh_button.clicked.connect(self.refresh_status.emit)
         self.refresh_button.setStyleSheet("""
             QPushButton {
@@ -456,7 +456,7 @@ class SystemStatusWidget(QWidget):
             }
         """)
         
-        self.export_button = QPushButton("💾 导出日志")
+        self.export_button = QPushButton("💾 export logs")
         self.export_button.clicked.connect(self.export_logs.emit)
         self.export_button.setStyleSheet("""
             QPushButton {
@@ -471,7 +471,7 @@ class SystemStatusWidget(QWidget):
             }
         """)
         
-        self.clear_button = QPushButton("🗑️ 清理缓存")
+        self.clear_button = QPushButton("🗑️ clear the cache")
         self.clear_button.clicked.connect(self.clear_cache.emit)
         self.clear_button.setStyleSheet("""
             QPushButton {
@@ -495,38 +495,38 @@ class SystemStatusWidget(QWidget):
         """更新状态显示"""
         try:
             status_text = f"=== AI系统状态 ===\n"
-            status_text += f"时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n"
+            status_text += f"Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n"
             
             # AI基本信息
             ai_info = status_data.get("ai_info", {})
-            status_text += f"AI名称: {ai_info.get('name', 'Unknown')}\n"
-            status_text += f"心理年龄: {ai_info.get('age', 0)}岁\n"
-            status_text += f"运行状态: {'运行中' if ai_info.get('is_running', False) else '已停止'}\n\n"
+            status_text += f"AI Name: {ai_info.get('name', 'Unknown')}\n"
+            status_text += f"mental age: {ai_info.get('age', 0)} years\n"
+            status_text += f"running status: {'running' if ai_info.get('is_running', False) else 'stopped'}\n\n"
             
             # 情绪状态
             emotion_status = status_data.get("emotion_status", {})
             dominant_emotion = emotion_status.get("dominant_emotion", {})
-            status_text += f"主导情绪: {dominant_emotion.get('type', 'calm')} ({dominant_emotion.get('intensity', '0%')})\n"
-            status_text += f"社交满足度: {emotion_status.get('social_satisfaction', '0%')}\n"
-            status_text += f"探索满足度: {emotion_status.get('exploration_satisfaction', '0%')}\n\n"
+            status_text += f"dominant emotion: {dominant_emotion.get('type', 'calm')} ({dominant_emotion.get('intensity', '0%')})\n"
+            status_text += f"social satisfaction: {emotion_status.get('social_satisfaction', '0%')}\n"
+            status_text += f"exploration satisfaction: {emotion_status.get('exploration_satisfaction', '0%')}\n\n"
             
             # 感知状态
             perception_status = status_data.get("perception_status", {})
-            status_text += "感知系统:\n"
+            status_text += "perceptual system:\n"
             for perception_type, is_active in perception_status.items():
-                status = "✅ 活跃" if is_active else "❌ 停止"
+                status = "✅ active" if is_active else "❌ stopped"
                 status_text += f"  {perception_type}: {status}\n"
             status_text += "\n"
             
             # 行为状态
             behavior_status = status_data.get("behavior_status", {})
-            status_text += f"行为队列长度: {behavior_status.get('queue_length', 0)}\n"
-            status_text += f"最后主动时间: {behavior_status.get('last_proactive_time', 'Never')}\n\n"
+            status_text += f"length of behavior queue: {behavior_status.get('queue_length', 0)}\n"
+            status_text += f"last active time: {behavior_status.get('last_proactive_time', 'Never')}\n\n"
             
             # 探索状态
             exploration_status = status_data.get("exploration_status", {})
-            status_text += f"探索队列: {exploration_status.get('queue_size', 0)} 个任务\n"
-            status_text += f"总探索次数: {exploration_status.get('total_explorations', 0)}\n"
+            status_text += f"exploration queue: {exploration_status.get('queue_size', 0)} tasks\n"
+            status_text += f"total number of explorations: {exploration_status.get('total_explorations', 0)}\n"
             
             self.status_text.setText(status_text)
             
@@ -559,27 +559,27 @@ class EmotionalUITabs(QTabWidget):
         self.emotion_widget = EmotionalStatusWidget()
         self.emotion_widget.thinking_button.clicked.connect(self.thinking_triggered.emit)
         self.emotion_widget.search_button.clicked.connect(lambda: self.search_triggered.emit(""))
-        self.addTab(self.emotion_widget, "🎭 情绪状态")
+        self.addTab(self.emotion_widget, "🎭 emotional state")
         
         # 感知控制标签页
         self.perception_widget = PerceptionControlWidget()
         self.perception_widget.perception_toggled.connect(self.perception_toggled.emit)
         self.perception_widget.capture_photo.connect(self.capture_photo.emit)
         self.perception_widget.capture_screenshot.connect(self.capture_screenshot.emit)
-        self.addTab(self.perception_widget, "👁️ 感知控制")
+        self.addTab(self.perception_widget, "👁️ perceived control")
         
         # 知识探索标签页
         self.knowledge_widget = KnowledgeExplorationWidget()
         self.knowledge_widget.manual_search.connect(self.manual_search.emit)
         self.knowledge_widget.toggle_auto_exploration.connect(self.toggle_auto_exploration.emit)
-        self.addTab(self.knowledge_widget, "🧠 知识探索")
+        self.addTab(self.knowledge_widget, "🧠 knowledge exploration")
         
         # 系统状态标签页
         self.status_widget = SystemStatusWidget()
         self.status_widget.refresh_status.connect(self.refresh_status.emit)
         self.status_widget.export_logs.connect(self.export_logs.emit)
         self.status_widget.clear_cache.connect(self.clear_cache.emit)
-        self.addTab(self.status_widget, "📊 系统状态")
+        self.addTab(self.status_widget, "📊 system state")
         
         # 样式设置
         self.setStyleSheet("""

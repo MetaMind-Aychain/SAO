@@ -21,6 +21,16 @@ from config import config
 from summer_memory.memory_manager import memory_manager
 from ui.pyqt_chat_window import ChatWindow
 
+# 导入Asuna AI系统
+try:
+    from asuna_integration import get_asuna_integration
+    from asuna_emotion_integration import get_asuna_emotion_integration
+    from asuna_autonomous_enhanced import get_asuna_autonomous_enhanced
+    ASUNA_AI_AVAILABLE = True
+except ImportError as e:
+    print(f"⚠️ Asuna AI系统不可用: {e}")
+    ASUNA_AI_AVAILABLE = False
+
 # 严格的全局单例管理
 _global_naga_instance = None
 _initialization_lock = threading.Lock()
@@ -268,7 +278,26 @@ if __name__=="__main__":
         icon_path = os.path.join(os.path.dirname(__file__), "ui", "window_icon.png")
         app.setWindowIcon(QIcon(icon_path))
         win=ChatWindow()
-        win.setWindowTitle("StarryNight AGENT")
+        win.setWindowTitle("Alice Synthesis AI - NagaAgent")
+        
+        # 初始化Asuna AI系统
+        if ASUNA_AI_AVAILABLE and config.emotional_ai.asuna_enabled:
+            try:
+                print("🚀 正在初始化Alice Synthesis AI系统...")
+                asuna_integration = get_asuna_integration()
+                asyncio.create_task(asuna_integration.initialize_asuna_systems())
+                print("✅ Alice Synthesis AI系统初始化完成")
+                
+                # 启动增强自主行为
+                if config.emotional_ai.asuna_autonomous_behavior:
+                    autonomous_enhanced = get_asuna_autonomous_enhanced(config)
+                    asyncio.create_task(autonomous_enhanced.start_autonomous_behavior())
+                    print("✅ Asuna增强自主行为系统已启动")
+                    
+            except Exception as e:
+                print(f"⚠️ Asuna AI系统初始化失败: {e}")
+        else:
+            print("ℹ️ Asuna AI系统未启用或不可用")
         
         # 延迟初始化AI自主交互与GUI的连接
         def delayed_connect_ai():

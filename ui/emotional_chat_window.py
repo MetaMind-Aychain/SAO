@@ -25,6 +25,9 @@ from .pyqt_chat_window import ChatWindow, TitleBar
 # 导入情绪化UI扩展
 from .emotional_ui_extension import EmotionalUITabs
 
+# 导入Asuna状态面板
+from .asuna_status_panel import AsunaStatusPanel
+
 # 导入情绪化AI管理器
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 from emotional_ai.emotional_ai_manager import get_emotional_ai_manager
@@ -58,6 +61,9 @@ class EmotionalChatWindow(ChatWindow):
             # 创建情绪化UI标签页
             self.emotion_tabs = EmotionalUITabs()
             
+            # 创建Asuna状态面板
+            self.asuna_panel = AsunaStatusPanel()
+            
             # 连接信号
             self.emotion_tabs.thinking_triggered.connect(self.trigger_thinking)
             self.emotion_tabs.search_triggered.connect(self.trigger_search)
@@ -70,11 +76,16 @@ class EmotionalChatWindow(ChatWindow):
             self.emotion_tabs.export_logs.connect(self.export_logs)
             self.emotion_tabs.clear_cache.connect(self.clear_cache)
             
-            # 将情绪标签页添加到主界面
+            # 连接Asuna面板信号
+            self.asuna_panel.memory_supplement_requested.connect(self.handle_memory_supplement)
+            self.asuna_panel.sao_element_clicked.connect(self.handle_sao_element_click)
+            
+            # 将情绪标签页和Asuna面板添加到主界面
             if hasattr(self, 'main_splitter'):
                 # 如果主界面有splitter，添加到右侧
                 self.main_splitter.addWidget(self.emotion_tabs)
-                self.main_splitter.setSizes([600, 400])  # 调整比例
+                self.main_splitter.addWidget(self.asuna_panel)
+                self.main_splitter.setSizes([500, 300, 300])  # 调整比例
             else:
                 # 否则创建新的布局
                 self.create_emotional_layout()
@@ -95,12 +106,13 @@ class EmotionalChatWindow(ChatWindow):
             # 创建水平分割器
             self.main_splitter = QSplitter(Qt.Horizontal)
             
-            # 添加原有组件和情绪标签页
+            # 添加原有组件、情绪标签页和Asuna面板
             self.main_splitter.addWidget(original_widget)
             self.main_splitter.addWidget(self.emotion_tabs)
+            self.main_splitter.addWidget(self.asuna_panel)
             
             # 设置比例
-            self.main_splitter.setSizes([700, 350])
+            self.main_splitter.setSizes([500, 300, 300])
             
             # 创建主布局
             main_layout = QHBoxLayout(central_widget)
@@ -114,7 +126,7 @@ class EmotionalChatWindow(ChatWindow):
         """启动情绪AI系统"""
         try:
             asyncio.create_task(self.emotional_ai.start_emotional_ai())
-            self.add_message_to_chat("系统", "情绪AI系统已启动！StarryNight醒过来啦～", "system")
+            self.add_message_to_chat("系统", "情绪AI系统已启动！Alice Synthesis醒过来啦～", "system")
         except Exception as e:
             logger.error(f"启动情绪AI失败: {e}")
             self.add_message_to_chat("系统", f"启动情绪AI失败: {e}", "error")
@@ -275,6 +287,44 @@ class EmotionalChatWindow(ChatWindow):
             logger.error(f"清理缓存失败: {e}")
             QMessageBox.warning(self, "清理失败", f"清理缓存失败: {e}")
     
+    # Asuna面板处理槽函数
+    @pyqtSlot(str)
+    def handle_memory_supplement(self, request_type: str):
+        """处理记忆补充请求"""
+        try:
+            if request_type == "user_requested":
+                # 用户主动请求补充记忆
+                self.add_message_to_chat("系统", "正在为Asuna补充记忆...", "system")
+                
+                # 这里可以调用Asuna记忆系统
+                if hasattr(self, 'asuna_panel'):
+                    # 模拟记忆补充
+                    self.asuna_panel.update_memory_stage("relaxed", 50, "记忆正在恢复中...")
+                    
+        except Exception as e:
+            logger.error(f"处理记忆补充请求失败: {e}")
+    
+    @pyqtSlot(str)
+    def handle_sao_element_click(self, element_key: str):
+        """处理SAO元素点击"""
+        try:
+            element_names = {
+                "sword": "细剑",
+                "dress": "白色连衣裙", 
+                "badge": "血盟骑士团徽章",
+                "floor_22": "22层小屋",
+                "stew": "炖肉",
+                "guild": "血盟骑士团"
+            }
+            
+            element_name = element_names.get(element_key, element_key)
+            self.add_message_to_chat("Asuna", f"你提到了{element_name}...这让我想起了一些什么...", "ai_proactive")
+            
+            # 这里可以触发相关的记忆恢复逻辑
+            
+        except Exception as e:
+            logger.error(f"处理SAO元素点击失败: {e}")
+    
     def update_status(self):
         """更新状态显示"""
         try:
@@ -293,6 +343,12 @@ class EmotionalChatWindow(ChatWindow):
                 
                 # 更新系统状态
                 self.emotion_tabs.update_system_status(status_data)
+            
+            # 更新Asuna面板
+            if hasattr(self, 'asuna_panel'):
+                # 这里应该从Asuna集成系统获取状态
+                # 暂时使用模拟数据
+                self.asuna_panel.update_display()
                 
         except Exception as e:
             logger.error(f"更新状态失败: {e}")
@@ -357,7 +413,7 @@ def main():
         app = QApplication(sys.argv)
         
         # 设置应用程序属性
-        app.setApplicationName("NagaAgent - 情绪化AI助手")
+        app.setApplicationName("NagaAgent - Alice Synthesis AI助手")
         app.setApplicationVersion("3.0")
         
         # 创建并显示窗口

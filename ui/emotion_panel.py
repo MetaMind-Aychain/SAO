@@ -41,17 +41,17 @@ class EmotionPanel(QWidget):
         layout.setSpacing(5)
         
         # 标题
-        title_label = QLabel("🌟 StarryNight状态")
+        title_label = QLabel("⚔️ Alice Synthesis状态")
         title_label.setFont(QFont("微软雅黑", 11, QFont.Bold))
         title_label.setAlignment(Qt.AlignCenter)
         title_label.setStyleSheet("""
             QLabel {
-                background-color: rgba(60, 80, 180, 120);
-                color: #E6F3FF;
+                background-color: rgba(180, 60, 80, 120);
+                color: #FFE6F3;
                 border-radius: 8px;
                 padding: 8px;
                 margin-bottom: 5px;
-                border: 1px solid rgba(120, 160, 255, 80);
+                border: 1px solid rgba(255, 120, 160, 80);
             }
         """)
         layout.addWidget(title_label)
@@ -93,8 +93,8 @@ class EmotionPanel(QWidget):
         """)
         info_layout = QVBoxLayout(info_group)
         
-        self.ai_name_label = QLabel("姓名: StarryNight")
-        self.age_label = QLabel("年龄: 3岁")
+        self.ai_name_label = QLabel("姓名: 爱丽丝 (Alice Synthesis)")
+        self.age_label = QLabel("年龄: 3岁 (心理年龄)")
         self.last_interaction_label = QLabel("最后互动: 刚才")
         
         for label in [self.ai_name_label, self.age_label, self.last_interaction_label]:

@@ -22,6 +22,14 @@ from apiserver.tool_call_utils import parse_tool_calls, execute_tool_calls, tool
 # 导入情绪AI核心
 from emotional_ai_core import get_emotion_core
 
+# 导入Asuna集成系统
+try:
+    from asuna_integration import get_asuna_integration
+    ASUNA_AVAILABLE = True
+except ImportError:
+    ASUNA_AVAILABLE = False
+    logger.warning("Asuna集成系统不可用")
+
 # 导入动态发布器
 try:
     from ai_dynamic_publisher import (
@@ -190,6 +198,19 @@ class NagaConversation: # 对话主类
             except Exception as e:
                 logger.warning(f"情绪AI系统初始化失败: {e}")
                 self.emotional_ai = None
+        
+        # 初始化Asuna集成系统
+        self.asuna_integration = None
+        if ASUNA_AVAILABLE and config.emotional_ai.asuna_enabled:
+            try:
+                self.asuna_integration = get_asuna_integration()
+                # 异步初始化Asuna系统
+                import asyncio
+                asyncio.create_task(self.asuna_integration.initialize_asuna_systems())
+                logger.info("Asuna集成系统初始化完成")
+            except Exception as e:
+                logger.warning(f"Asuna集成系统初始化失败: {e}")
+                self.asuna_integration = None
     
     def _builtin_demo_response(self, user_input: str, emotion_state=None) -> str:
         """内置演示响应"""
@@ -497,27 +518,33 @@ class NagaConversation: # 对话主类
             # 获取人设提示词
             persona_prompt = ""
             try:
-                from persona_management_system import get_persona_prompt, get_persona_manager, record_ai_behavior
-                
-                # 检查是否需要更新人设
-                persona_manager = get_persona_manager()
-                if hasattr(persona_manager, 'should_update_llm_persona') and persona_manager.should_update_llm_persona():
-                    persona_prompt = get_persona_prompt(f"用户说: {u}")
-                    
-                    # 记录人设更新行为
-                    record_ai_behavior(
-                        "persona_update",
-                        "更新LLM人设信息以适应当前情绪和状态",
-                        emotional_impact=0.2
-                    )
-                    logger.info("已更新LLM人设提示词")
+                # 优先使用Asuna系统提示词
+                if self.asuna_integration and self.asuna_integration.is_initialized:
+                    persona_prompt = self.asuna_integration.get_asuna_system_prompt()
+                    logger.info("使用Asuna系统提示词")
                 else:
-                    # 使用简化人设，避免过度冗余
-                    persona_prompt = "You are StarryNight, a cute AI assistant with the mental age of 3. You'll stay lively and adorable!，Respond naturally based on the current mood."
+                    # 回退到原有的人设系统
+                    from persona_management_system import get_persona_prompt, get_persona_manager, record_ai_behavior
+                    
+                    # 检查是否需要更新人设
+                    persona_manager = get_persona_manager()
+                    if hasattr(persona_manager, 'should_update_llm_persona') and persona_manager.should_update_llm_persona():
+                        persona_prompt = get_persona_prompt(f"用户说: {u}")
+                        
+                        # 记录人设更新行为
+                        record_ai_behavior(
+                            "persona_update",
+                            "更新LLM人设信息以适应当前情绪和状态",
+                            emotional_impact=0.2
+                        )
+                        logger.info("已更新LLM人设提示词")
+                    else:
+                        # 使用简化人设，避免过度冗余
+                        persona_prompt = f"You are {config.emotional_ai.ai_name}, a cute AI assistant with the mental age of 3. You'll stay lively and adorable!，Respond naturally based on the current mood."
                 
             except Exception as e:
                 logger.error(f"获取人设提示词失败: {e}")
-                persona_prompt = "You are StarryNight, a cute AI assistant with the mental age of 3. You'll stay lively and adorable!"
+                persona_prompt = f"You are {config.emotional_ai.ai_name}, a cute AI assistant with the mental age of 3. You'll stay lively and adorable!"
             
             # 结合人设和原有系统提示词
             enhanced_system_prompt = f"{persona_prompt}\n\n{RECOMMENDED_PROMPT_PREFIX}\n{config.prompts.naga_system_prompt}"
@@ -572,6 +599,20 @@ class NagaConversation: # 对话主类
                         # final_content = self.emotional_ai.get_personality_modifier(final_content)
                     except Exception as e:
                         logger.error(f"情绪AI处理失败: {e}")
+                
+                # Asuna系统处理
+                if self.asuna_integration and self.asuna_integration.is_initialized:
+                    try:
+                        # 处理Asuna交互
+                        asuna_result = await self.asuna_integration.process_user_interaction(u, final_content)
+                        
+                        # 使用Asuna风格的回复
+                        if asuna_result.get("asuna_response"):
+                            final_content = asuna_result["asuna_response"]
+                            logger.info(f"Asuna处理完成: 阶段={asuna_result.get('stage')}, 记忆恢复={asuna_result.get('memory_recovered')}")
+                        
+                    except Exception as e:
+                        logger.error(f"Asuna系统处理失败: {e}")
                 
                 # 保存对话历史
                 self.messages += [{"role": "user", "content": u}, {"role": "assistant", "content": final_content}]
