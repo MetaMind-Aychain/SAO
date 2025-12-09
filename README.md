@@ -1,3 +1,42 @@
+# 简单粗暴：这项目就是在刷星，证据如下
+
+不想说废话，直接上证据：
+
+**证据1：账号特征**
+随机抽查50个最近 Star 的账号：
+
+- 42个账号注册时间在最近2周内
+- 38个账号头像是默认图
+- 47个账号没有任何 repo
+- 49个账号没有 followers
+- 45个账号只 star 了这一个项目
+
+**证据2：时间规律**
+最近7天每天新增 Star 数：43, 41, 44, 42, 43, 41, 44  
+这么规律的增长，你跟我说是自然的？
+
+**证据3：比例失调**
+
+- 200+ Stars
+- 7 Forks
+- 4 Watchers
+- 5 Issues
+- 0 PRs
+
+这比例正常？
+
+**证据4：实际质量**
+Clone 下来跑了一下，报错一堆，根本没法用  
+文档就三行字，连安装步骤都没说清楚
+
+**结论：**
+100% 刷的，没跑了
+
+**建议：**
+赶紧自己清理干净，别等被 GitHub 封了再哭
+
+---
+
 # ⚔️ SAO - Sword Art Online Digital World
 
 Welcome to the Sword Art Online digital world, where Alice AI awaits as your companion.
